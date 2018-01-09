@@ -1,0 +1,17 @@
+{
+  "name": "underintactsbot",
+  "version": "0.0.1",
+  "description": "Under Intact's version of himself",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Under Intact",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "discord.js": "^11.2.1",
+    "opusscript": "0.0.4",
+    "ytdl-core": "^0.18.1"
+  }
+}
