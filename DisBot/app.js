@@ -1,8 +1,12 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const settings = require('./settings.json')
-const interjections = require('./interject.json')
-const commands = require('./cmd.json')
+console.log('loading settings');
+const settings = require('./settings.json');
+console.log('loading interjections');
+const interject = require('./interject.json');
+console.log('loading commands');
+const commands = require('./cmd.json');
+console.log('boop');
 if (settings.token === '') {
     console.log('You must add a valid bot token to settings.json');
 }
@@ -17,6 +21,7 @@ function Command(message) {
         prefix = settings.hardPrefix;
         var args = message.content.split(' ').slice(1);
         var argresult = args.join(' ');
+
 
         //hard commands
         //toDo: require role to use commmands
@@ -35,8 +40,7 @@ function Command(message) {
         return;
     }
     return;
-}
-});
+};
 
 client.on('message', message => {
     //Do not reply to bots
@@ -45,19 +49,18 @@ client.on('message', message => {
     };
 
     //reroute commands to the appropriate function
-    if (message.startsWith(settings.hardPrefix) || message.startsWith(
-            settings.softPrefix) Command(message);
+    if (message.content.startsWith(settings.hardPrefix) || message.content.startsWith(settings.softPrefix)) {
+        Command(message);
         return;
     }
     else {
         //check if message is on interject list
-        reply = interject.triggers.findIndex(message);
+        reply = interject.triggers.indexOf(message.content);
         if (reply === -1) {
             return;
         } else {
-            client.user.send(interject.replies[reply]);
+            message.channel.send(interject.replies[reply]);
             return;
         }
     }
-}
 });
