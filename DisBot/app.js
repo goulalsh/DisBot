@@ -7,7 +7,7 @@ client.on('ready' ,() => {
 });
 client.on('message', message => {
     //autoresponses to phrases
-    if (!message.author.bot) {
+    if (!message.author.bot)   {
         if (message.content.includes("megadeath")) {
             message.channel.send('IT IS SPELLED MEGADETH YOU UNCULTURED MOTHERFUCKIN GOD DAMN FUCKIN CUNTFUCK');
         } else
@@ -22,38 +22,44 @@ client.on('message', message => {
     }
 
     //Picure responses
+
     if (message.content.includes("fuck you")) {
-        bot.sendFile
-//commands
-var prefix = "/"
-	if(!message.content.startsWith(prefix)) return;
-	var args = message.content.split (' ').slice(1);
-	var argresult = args.join(' ');
-	console.log('Yep it is pretty much there');
-	if (message.author === client.user) return;
+        message.channel.sendFile("images/dealwithit.jpg");
+    } else
 
-	if (message.content === prefix + 'youthere?') {
-		message.channel.sendMessage('Yes what do you want?');
-	 
-		} else
+        //commands
+        var prefix = "/"
+    if (!message.content.startsWith(prefix)) return;
+    var args = message.content.split(' ').slice(1);
+    var argresult = args.join(' ');
+    console.log('Yep it is pretty much there');
+    if (message.author === client.user) return;
 
-	if (message.content.startsWith(prefix + 'setgame')) {
-		client.user.setGame(argresult);
+    if (message.content === prefix + 'youthere?') {
+        message.channel.sendMessage('Yes what do you want?');
 
-		} else
+    } else
 
-	if (message.content.startsWith(prefix + 'setstatus')) {
-		if(!argresult) argresult = 'online';
-		client.user.setStatus(argresult);
+        if (message.content.startsWith(prefix + 'setgame')) {
+            client.user.setGame(argresult);
 
-		} else
+        } else
 
-	if (message.content.startsWith(prefix + 'help')) {
-		message.author.send('/youthere? checks if I am up and barely functioning. /ratethighs rates the thighs you sent. Uhh, that is it so far.');
-		
-		} else
+            if (message.content.startsWith(prefix + 'setstatus')) {
+                if (!argresult) argresult = 'online';
+                client.user.setStatus(argresult);
 
-		if (message.content.startsWith(prefix + 'ratethighs'))
-			message.channel.sendMessage('Those thighs are pretty good man. Keep it comin, and ill keep comin.')
+            } else
+
+                if (message.content.startsWith(prefix + 'help')) {
+                    message.author.send('/youthere? checks if I am up and barely functioning. /ratethighs rates the thighs you sent. Uhh, that is it so far.');
+
+                } else
+
+                    if (message.content.startsWith(prefix + 'ljn')) {
+                        message.channel.sendFile("images/whatfff");
+                    } else
+                    
+                    
 
 });
