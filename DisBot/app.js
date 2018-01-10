@@ -58,8 +58,7 @@ client.on('message', message => {
 
                     if (message.content.startsWith(prefix + 'ljn')) {
                         message.channel.sendFile("images/whatfff");
-                    } else
-                    
-                    
-
+                    }
 });
+                    
+            
