@@ -7,7 +7,7 @@ client.on('ready' ,() => {
 });
 client.on('message', message => {
     //autoresponses to phrases
-    if (!message.author.bot)   {
+    if (!message.author.bot) {
         if (message.content.includes("megadeath")) {
             message.channel.send('IT IS SPELLED MEGADETH YOU UNCULTURED MOTHERFUCKIN GOD DAMN FUCKIN CUNTFUCK');
         } else
@@ -18,7 +18,15 @@ client.on('message', message => {
 
                 if (message.content.includes("thighs")) {
                     message.channel.send('I heard thighs! Where the thighs at!?');
-                }
+                } else
+
+                    if (message.content.includes("Megadeath")) {
+                        message.channel.send('IT IS SPELLED MEGADETH YOU UNCULTURED MOTHERFUCKIN GOD DAMN FUCKIN CUNTFUCK');
+                    } else
+
+                        if (message.content.includes("beer")) {
+                            message.channel.send("https://youtu.be/O-jOEAufDQ4");
+                        }
     }
 
     //Picure responses
@@ -27,6 +35,26 @@ client.on('message', message => {
         message.channel.sendFile("images/dealwithit.jpg");
     } else
 
+        if (message.content.includes("Fuck you")) {
+            message.channel.sendFile("images/dealwithit.jpg");
+        } else
+
+            if (message.content === "hey under") {
+                message.channel.sendFile("images/lars_spaghetti.jpg");
+            } else
+
+                if (message.content === "Hey under") {
+                    message.channel.sendFile("images/lars_spaghetti.jpg");
+                } else
+
+                    if (message.content === "Hey Under") {
+                        message.channel.sendFile("images/lars_spaghetti.jpg");
+                    } else
+
+                        if (message.content.includes("180325308967157760")) {
+                            message.channel.sendFile("images/lars_spaghetti.jpg");
+                        }
+                        
         //commands
         var prefix = "/"
     if (!message.content.startsWith(prefix)) return;
@@ -52,13 +80,17 @@ client.on('message', message => {
             } else
 
                 if (message.content.startsWith(prefix + 'help')) {
-                    message.author.send('/youthere? checks if I am up and barely functioning. /ratethighs rates the thighs you sent. Uhh, that is it so far.');
+                    message.author.send('/youthere? checks if I am up and barely functioning. /ljn will send a picture of James Rolfe, /givebooze will give a beer to you. Uhh, that is it so far.');
 
                 } else
 
                     if (message.content.startsWith(prefix + 'ljn')) {
-                        message.channel.sendFile("images/whatfff");
-                    }
+                        message.channel.sendFile("images/whatfff.jpg");
+                    } else
+
+                        if (message.content.startsWith(prefix + 'givebooze')) {
+                            message.channel.sendFile("images/hetbeer.jpg");
+                        }
 });
                     
             
