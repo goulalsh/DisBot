@@ -55,11 +55,19 @@ client.on('message', message => {
     }
     else {
         //check if message is on interject list
+        foo = "bar"
         reply = interject.triggers.indexOf(message.content);
         if (reply === -1) {
             return;
-        } else {
-            message.channel.send(interject.replies[reply]);
+        }
+
+        else {
+            if (interject.replies[reply].startsWith("images/")) {
+                message.channel.sendFile(interject.replies[reply]);
+            }
+            else {
+                message.channel.send(interject.replies[reply]);
+            }
             return;
         }
     }
