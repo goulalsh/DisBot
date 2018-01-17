@@ -16,7 +16,7 @@ client.on('ready', () => {
 });
 
 function Command(message) {
-    if (message.startsWith(settings.hardPrefix)) {
+    if (message.content.startsWith(settings.hardPrefix)) {
         //isolate args
         prefix = settings.hardPrefix;
         var args = message.content.split(' ').slice(1);
@@ -26,7 +26,12 @@ function Command(message) {
         //hard commands
         //toDo: require role to use commmands
         if (message.content === prefix + 'setgame') {
-            client.user.setGame(argresult);
+            if (rolecheck(message.member.roles, settings.modrole)) {
+                client.user.setGame(argresult);
+            }
+            else {
+                message.channel.send("You do not have the required role");
+            }
             return;
         } else if (message.content === prefix + 'setstatus') {
             client.user.setStatus(argresult);
@@ -47,6 +52,9 @@ client.on('message', message => {
     if (message.author.bot) {
         return;
     };
+
+    //Uncomment this line and replace "Moderator" with the name of the role you're looking for
+    //console.log(message.guild.roles.find("name", "Moderator"));
 
     //reroute commands to the appropriate function
     if (message.content.startsWith(settings.hardPrefix) || message.content.startsWith(settings.softPrefix)) {
@@ -71,4 +79,14 @@ client.on('message', message => {
             return;
         }
     }
+});
+function rolecheck(userroles, roleid) {
+    //iterate though collection of roles to check for the mod role
+    var roles = userroles;
+    roles.foreach(function (element) {
+        if (element === roleid) {
+            return true;
+        }
+    });
+    return false;
 });
