@@ -13,6 +13,9 @@ if (settings.token === '') {
 client.login(settings.token)
 client.on('ready', () => {
     console.log(settings.motd);
+
+ //Found a way for the bot to open with a game set
+client.user.setGame("")
 });
 
 function Command(message) {
