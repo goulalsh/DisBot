@@ -15,7 +15,7 @@ client.on('ready', () => {
     console.log(settings.motd);
 
  //Found a way for the bot to open with a game set
-client.user.setGame("")
+client.user.setGame("with spaghetti")
 });
 
 function Command(message) {
@@ -81,6 +81,20 @@ client.on('message', message => {
             }
             return;
         }
+    }
+    reply = cmd.triggers.indexOf(message.content);
+    if (reply === -1) {
+       return;
+   }
+
+   else {
+     if (cmd.replies[reply].startsWith("images/")) {
+        message.channel.sendFile(cmd.replies[reply]);
+     }
+        else {
+            message.channel.send(cmd.replies[reply]);
+     }
+      return;
     }
 });
 function rolecheck(userroles, roleid) {
