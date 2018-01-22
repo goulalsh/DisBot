@@ -13,43 +13,8 @@ if (settings.token === '') {
 client.login(settings.token)
 client.on('ready', () => {
     console.log(settings.motd);
-
- //Found a way for the bot to open with a game set
-client.user.setGame("with spaghetti")
+    client.user.setGame("with spaghetti");
 });
-
-function Command(message) {
-    if (message.content.startsWith(settings.hardPrefix)) {
-        //isolate args
-        prefix = settings.hardPrefix;
-        var args = message.content.split(' ').slice(1);
-        var argresult = args.join(' ');
-
-
-        //hard commands
-        //toDo: require role to use commmands
-        if (message.content === prefix + 'setgame') {
-            if (rolecheck(message.member.roles, settings.modrole)) {
-                client.user.setGame(argresult);
-            }
-            else {
-                message.channel.send("You do not have the required role");
-            }
-            return;
-        } else if (message.content === prefix + 'setstatus') {
-            client.user.setStatus(argresult);
-            return;
-        }
-    } else if (message.startsWith(settings.softPrefix)) {
-        //todo: this entire feature
-        return;
-    } else {
-        throw 'Command function was passed a non command';
-        return;
-    }
-    return;
-};
-
 client.on('message', message => {
     //Do not reply to bots
     if (message.author.bot) {
@@ -66,10 +31,10 @@ client.on('message', message => {
     }
     else {
         //check if message is on interject list
-        foo = "bar"
         reply = interject.triggers.indexOf(message.content);
         if (reply === -1) {
-            return;
+          //message not on list
+          return;
         }
 
         else {
@@ -97,13 +62,71 @@ client.on('message', message => {
       return;
     }
 });
+
+function Command(message) {
+    if (message.content.startsWith(settings.hardPrefix)) {
+        //isolate args
+        prefix = settings.hardPrefix;
+        var args = message.content.split(' ').slice(1);
+        var argresult = args.join(' ');
+
+        console.log(message.content);
+        //hard commands
+        if (message.content.startsWith(prefix + 'setgame')) {
+            if (rolecheck(message.member.roles, settings.modrole)) {
+                client.user.setGame(argresult);
+                return;
+            }
+            else {
+                message.channel.send("You do not have the required role");
+                return;
+            }
+            return;
+
+        } else if (message.content.startsWith(prefix + 'setstatus')) {
+            client.user.setStatus(argresult);
+            return;
+        } else {
+              message.channel.send("You do not have the required role");
+              return;
+        }
+
+    } else if (message.startsWith(settings.softPrefix)) {
+        sCommand(message);
+        return;
+    } else {
+        throw 'Command function was passed as a non command';
+        return;
+    }
+};
+
 function rolecheck(userroles, roleid) {
     //iterate though collection of roles to check for the mod role
-    var roles = userroles;
-    roles.foreach(function (element) {
+    userroles.forEach(function (element) {
         if (element === roleid) {
             return true;
         }
     });
     return false;
+};
+
+function hCommand(message){
+  if (message.content.startsWith(settings.hardPrefix + 'setgame')) {
+      if (rolecheck(message.member.roles, settings.modrole)) {
+          client.user.setGame(argresult);
+          return;
+      }
+      else {
+          message.channel.send("You do not have the required role");
+          return;
+      }
+      return;
+  } else if (message.content === prefix + 'setstatus') {
+      client.user.setStatus(argresult);
+      return;
+  }
+};
+
+function sCommand(message){
+
 };
