@@ -84,8 +84,9 @@ function Command(message) {
             return;
 
         } else if (message.content.startsWith(prefix + 'setstatus')) {
-            client.user.setStatus(argresult);
-            return;
+                    if (rolecheck(message.member.roles, settings.modrole)) {
+                    client.user.setStatus(argresult);
+                    return;
         } else {
               message.channel.send("You do not have the required role");
               return;
