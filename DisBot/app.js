@@ -1,64 +1,131 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const settings = require('./settings.json')
-client.login(settings.token)
-client.on('ready' ,() => {
-	console.log('Lets fuckin go');
+console.log('loading settings');
+const settings = require('./settings.json');
+console.log('loading interjections');
+const interject = require('./interject.json');
+console.log('loading commands');
+const commands = require('./cmd.json');
+console.log('loading token.json');
+const token = require('./token.json');
+console.log('boop');
+if (token.token === '') {
+    console.log('You must add a valid bot token to token.json');
+}
+client.login(token.token)
+client.on('ready', () => {
+    console.log(settings.motd);
+    client.user.setGame(settings.defaultGame);
 });
 client.on('message', message => {
-    //autoresponses to phrases
-    if (!message.author.bot)   {
-        if (message.content.includes("megadeath")) {
-            message.channel.send('IT IS SPELLED MEGADETH YOU UNCULTURED MOTHERFUCKIN GOD DAMN FUCKIN CUNTFUCK');
-        } else
+    //Do not reply to bots
+    if (message.author.bot) {
+        return;
+    };
 
-            if (message.content === 'Hello me') {
-                message.channel.send('Meet the real me');
-            } else
+    //Uncomment this line and replace "Moderator" with the name of the role you're looking for
+    //console.log(message.guild.roles.find("name", "Moderator"));
 
-                if (message.content.includes("thighs")) {
-                    message.channel.send('I heard thighs! Where the thighs at!?');
-                }
+    //reroute commands to the appropriate function
+    if (message.content.startsWith(settings.hardPrefix) || message.content.startsWith(settings.softPrefix)) {
+        Command(message);
+        return;
     }
+    else {
+        //check if message is on interject list
+        reply = interject.triggers.indexOf(message.content);
+        if (reply === -1) {
+          //message not on list.
+          return;
+        }
+		else {
+            if (interject.replies[reply].startsWith("images/")) {
+                message.channel.sendFile(interject.replies[reply]);
+            }
+            else {
+                message.channel.send(interject.replies[reply]);
+            }
+            return;
+        }
+    }
+    reply = cmd.triggers.indexOf(message.content);
+    if (reply === -1) {
+       return;
+   }
 
-    //Picure responses
-
-    if (message.content.includes("fuck you")) {
-        message.channel.sendFile("images/dealwithit.jpg");
-    } else
-
-        //commands
-        var prefix = "/"
-    if (!message.content.startsWith(prefix)) return;
-    var args = message.content.split(' ').slice(1);
-    var argresult = args.join(' ');
-    console.log('Yep it is pretty much there');
-    if (message.author === client.user) return;
-
-    if (message.content === prefix + 'youthere?') {
-        message.channel.sendMessage('Yes what do you want?');
-
-    } else
-
-        if (message.content.startsWith(prefix + 'setgame')) {
-            client.user.setGame(argresult);
-
-        } else
-
-            if (message.content.startsWith(prefix + 'setstatus')) {
-                if (!argresult) argresult = 'online';
-                client.user.setStatus(argresult);
-
-            } else
-
-                if (message.content.startsWith(prefix + 'help')) {
-                    message.author.send('/youthere? checks if I am up and barely functioning. /ratethighs rates the thighs you sent. Uhh, that is it so far.');
-
-                } else
-
-                    if (message.content.startsWith(prefix + 'ljn')) {
-                        message.channel.sendFile("images/whatfff");
-                    }
+   else {
+ 	if (cmd.replies[reply].startsWith("images/")) {
+    	message.channel.sendFile(cmd.replies[reply]);
+    }
+    else {
+        message.channel.send(cmd.replies[reply]);
+    }
+	return;
+    }
 });
-                    
-            
+
+function Command(message) {
+    if (message.content.startsWith(settings.hardPrefix)) {
+		hCommand(message);
+
+    } else if (message.content.startsWith(settings.softPrefix)) {
+        sCommand(message);
+        return;
+    } else {
+		console.log(message);
+        throw 'Command function was passed as a non command';
+        return;
+    }
+};
+
+function rolecheck(userroles, role) {
+    //iterate though collection of roles to check for the mod role
+    for (let element of userroles) {
+        if (element[1].name === role) {
+			console.log("boop");
+			return true;
+        }
+    };
+    return false;
+};
+
+function hCommand(message){
+
+	prefix = settings.hardPrefix;
+	var args = message.content.split(' ').slice(1);
+	var argresult = args.join(' ');
+
+  	if (message.content.startsWith(settings.hardPrefix + 'setgame')) {
+    	if (rolecheck(message.member.roles, "Moderator")) {
+			console.log("Setting game to " + argresult)
+			client.user.setGame(argresult);
+        	return;
+      	}
+    	else {
+        	message.channel.send("You do not have the required role");
+        	return;
+    	}
+	}
+
+  	else if (message.content === settings.hardPrefix + 'setstatus') {
+    	if (rolecheck(message.member.roles, settings.modrole)) {
+        	client.user.setStatus(argresult);
+        	return;
+      	}
+      	else {
+        	message.channel.send("You do not have the required role");
+        	return;
+      	}
+	}
+
+  	else if (message.content.startsWith(settings.hardPrefix + 'getrole')) {
+		var out = message.guild.roles.find("name", argresult);
+      	//message.channel.send(out);
+      	console.log(out);
+	  	return;
+  	}
+};
+
+function sCommand(message){
+	// TODO: soft commands
+};
