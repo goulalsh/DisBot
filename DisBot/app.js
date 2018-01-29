@@ -33,11 +33,10 @@ client.on('message', message => {
         //check if message is on interject list
         reply = interject.triggers.indexOf(message.content);
         if (reply === -1) {
-          //message not on list
+          //message not on list.
           return;
         }
-
-        else {
+		else {
             if (interject.replies[reply].startsWith("images/")) {
                 message.channel.sendFile(interject.replies[reply]);
             }
@@ -53,13 +52,13 @@ client.on('message', message => {
    }
 
    else {
-     if (cmd.replies[reply].startsWith("images/")) {
-        message.channel.sendFile(cmd.replies[reply]);
-     }
-        else {
-            message.channel.send(cmd.replies[reply]);
-     }
-      return;
+ 	if (cmd.replies[reply].startsWith("images/")) {
+    	message.channel.sendFile(cmd.replies[reply]);
+    }
+    else {
+        message.channel.send(cmd.replies[reply]);
+    }
+	return;
     }
 });
 
@@ -71,7 +70,9 @@ function Command(message) {
         var argresult = args.join(' ');
 
         console.log(message.content);
+		hCommand(message);
         //hard commands
+		/*
         if (message.content.startsWith(prefix + 'setgame')) {
             if (rolecheck(message.member.roles, settings.modrole)) {
                 client.user.setGame(argresult);
@@ -91,43 +92,66 @@ function Command(message) {
               message.channel.send("You do not have the required role");
               return;
         }
+		*/
 
-    } else if (message.startsWith(settings.softPrefix)) {
+    } else if (message.content.startsWith(settings.softPrefix)) {
         sCommand(message);
         return;
     } else {
+		console.log(message);
         throw 'Command function was passed as a non command';
         return;
     }
 };
 
-function rolecheck(userroles, roleid) {
+function rolecheck(userroles, role) {
     //iterate though collection of roles to check for the mod role
-    userroles.forEach(function (element) {
-        if (element === roleid) {
-            return true;
+    for (let element of userroles) {
+		console.log(element.name);
+        if (element.name === role.trim()) {
+			console.log("blorph");
+			return true;
         }
-    });
+    };
     return false;
 };
 
 function hCommand(message){
-  if (message.content.startsWith(settings.hardPrefix + 'setgame')) {
-      if (rolecheck(message.member.roles, settings.modrole)) {
-          client.user.setGame(argresult);
-          return;
-      }
-      else {
-          message.channel.send("You do not have the required role");
-          return;
-      }
-      return;
-  } else if (message.content === prefix + 'setstatus') {
-      client.user.setStatus(argresult);
-      return;
+
+	prefix = settings.hardPrefix;
+	var args = message.content.split(' ').slice(1);
+	var argresult = args.join(' ');
+
+  	if (message.content.startsWith(settings.hardPrefix + 'setgame')) {
+    	if (sCommand(message.member.roles)) {
+        	client.user.setGame(argresult);
+        	return;
+      	}
+    	else {
+        	message.channel.send("You do not have the required role");
+        	return;
+    	}
+	}
+
+  	else if (message.content === settings.hardPrefix + 'setstatus') {
+    	if (rolecheck(message.member.roles, settings.modrole)) {
+        	client.user.setStatus(argresult);
+        	return;
+      	}
+      	else {
+        	message.channel.send("You do not have the required role");
+        	return;
+      	}
+	}
+
+  	else if (message.content.startsWith(settings.hardPrefix + 'getrole')) {
+		var out = message.guild.roles.find("name", argsresult);
+      	//message.channel.send(out);
+      	console.log(out);
+	  	return;
   }
 };
 
 function sCommand(message){
-
+	return rolecheck(message, "Moderator");
 };
