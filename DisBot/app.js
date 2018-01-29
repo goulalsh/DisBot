@@ -64,6 +64,7 @@ client.on('message', message => {
     }
 });
 
+//TODO: this func is a waste of time, just do case switching up above
 function Command(message) {
     if (message.content.startsWith(settings.hardPrefix)) {
 		hCommand(message);
@@ -123,7 +124,7 @@ function hCommand(message){
       	//message.channel.send(out);
       	console.log(out);
 	  	return;
-  }
+  	}
 };
 
 function sCommand(message){
