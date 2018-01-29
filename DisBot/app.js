@@ -1,3 +1,4 @@
+//Gotta get all them files loaded up
 const Discord = require('discord.js');
 const client = new Discord.Client();
 console.log('loading settings');
@@ -8,15 +9,17 @@ console.log('loading commands');
 const commands = require('./cmd.json');
 console.log('loading token.json');
 const token = require('./token.json');
-console.log('boop');
+
 if (token.token === '') {
     console.log('You must add a valid bot token to token.json');
 }
+
 client.login(token.token)
 client.on('ready', () => {
     console.log(settings.motd);
     client.user.setGame(settings.defaultGame);
 });
+
 client.on('message', message => {
     //Do not reply to bots
     if (message.author.bot) {
@@ -27,11 +30,19 @@ client.on('message', message => {
     //console.log(message.guild.roles.find("name", "Moderator"));
 
     //reroute commands to the appropriate function
-    if (message.content.startsWith(settings.hardPrefix) || message.content.startsWith(settings.softPrefix)) {
-        Command(message);
-        return;
-    }
-    else {
+	if (message.content.startsWith(settings.hardPrefix)) {
+		hCommand(message);
+		return;
+	}
+	else if (message.content.startsWith(settings.softPrefix)){
+		sCommand(message);
+		return;
+	}
+
+	//interject if enabled
+    else if (settings.interject) {
+		replyInterject(message);
+		/*
         //check if message is on interject list
         reply = interject.triggers.indexOf(message.content);
         if (reply === -1) {
@@ -39,6 +50,7 @@ client.on('message', message => {
           return;
         }
 		else {
+			//send images
             if (interject.replies[reply].startsWith("images/")) {
                 message.channel.sendFile(interject.replies[reply]);
             }
@@ -47,37 +59,12 @@ client.on('message', message => {
             }
             return;
         }
+		*/
     }
-    reply = cmd.triggers.indexOf(message.content);
-    if (reply === -1) {
-       return;
-   }
 
-   else {
- 	if (cmd.replies[reply].startsWith("images/")) {
-    	message.channel.sendFile(cmd.replies[reply]);
-    }
-    else {
-        message.channel.send(cmd.replies[reply]);
-    }
-	return;
-    }
 });
 
-function Command(message) {
-    if (message.content.startsWith(settings.hardPrefix)) {
-		hCommand(message);
-
-    } else if (message.content.startsWith(settings.softPrefix)) {
-        sCommand(message);
-        return;
-    } else {
-		console.log(message);
-        throw 'Command function was passed as a non command';
-        return;
-    }
-};
-
+//TODO: Real permissions instead of this crap
 function rolecheck(userroles, role) {
     //iterate though collection of roles to check for the mod role
     for (let element of userroles) {
@@ -118,14 +105,33 @@ function hCommand(message){
       	}
 	}
 
-  	else if (message.content.startsWith(settings.hardPrefix + 'getrole')) {
+  	else if (message.content.startsWith(settings.hardPrefix + 'getroleinfo')) {
 		var out = message.guild.roles.find("name", argresult);
-      	//message.channel.send(out);
+      	message.channel.send(out.name + ": " + out.id);
       	console.log(out);
 	  	return;
   	}
 };
 
-function sCommand(message){
+function sCommand(message) {
 	// TODO: soft commands
+};
+
+function replyInterject(message) {
+	for (let element of interject.triggers){
+		if (message.content.includes(element)) {
+			reply = interject.replies[interject.triggers.indexOf(element)];
+
+			if (reply.startsWith("images/")){
+				message.channel.sendFile(reply);
+			}
+
+			else {
+				message.channel.send(reply);
+			}
+			
+			return;
+		}
+	}
+	return;
 };
