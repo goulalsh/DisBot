@@ -1,5 +1,5 @@
 {
-  "motd": "'Welcome to DisBot version 0.3.1-prerelease. This bot is not to be used by anyone. Ever.'",
+  "motd": "'Welcome to DisBot version 0.4.0a This bot is not to be used by anyone. Ever.'",
   "defaultGame":"With spaghetti",
   "hardPrefix": "/",
   "softPrefix": "!",
