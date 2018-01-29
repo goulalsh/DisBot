@@ -123,7 +123,7 @@ function hCommand(message){
       	//message.channel.send(out);
       	console.log(out);
 	  	return;
-  }
+  	}
 };
 
 function sCommand(message){
