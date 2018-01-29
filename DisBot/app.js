@@ -107,9 +107,10 @@ function Command(message) {
 function rolecheck(userroles, role) {
     //iterate though collection of roles to check for the mod role
     for (let element of userroles) {
-		console.log(element.name);
-        if (element.name === role.trim()) {
-			console.log("blorph");
+		//console.log(element);
+		//console.log(element[1].name);
+        if (element[1].name === role) {
+			console.log("boop");
 			return true;
         }
     };
@@ -123,8 +124,9 @@ function hCommand(message){
 	var argresult = args.join(' ');
 
   	if (message.content.startsWith(settings.hardPrefix + 'setgame')) {
-    	if (sCommand(message.member.roles)) {
-        	client.user.setGame(argresult);
+    	if (rolecheck(message.member.roles, "Moderator")) {
+			console.log("Setting game to " + argresult)
+			client.user.setGame(argresult);
         	return;
       	}
     	else {
@@ -145,7 +147,7 @@ function hCommand(message){
 	}
 
   	else if (message.content.startsWith(settings.hardPrefix + 'getrole')) {
-		var out = message.guild.roles.find("name", argsresult);
+		var out = message.guild.roles.find("name", argresult);
       	//message.channel.send(out);
       	console.log(out);
 	  	return;
