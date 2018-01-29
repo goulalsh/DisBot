@@ -1,5 +1,6 @@
 {
   "motd": "'Welcome to DisBot version 0.2.0-prerelease. This bot is not to be used by anyone. Ever.'",
+  "defaultGame":"With spaghetti",
   "hardPrefix": "/",
   "softPrefix": "!",
   "modrole": "Moderator"

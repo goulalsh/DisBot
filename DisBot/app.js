@@ -15,7 +15,7 @@ if (token.token === '') {
 client.login(token.token)
 client.on('ready', () => {
     console.log(settings.motd);
-    client.user.setGame("with spaghetti");
+    client.user.setGame(settings.defaultGame);
 });
 client.on('message', message => {
     //Do not reply to bots
@@ -66,35 +66,7 @@ client.on('message', message => {
 
 function Command(message) {
     if (message.content.startsWith(settings.hardPrefix)) {
-        //isolate args
-        prefix = settings.hardPrefix;
-        var args = message.content.split(' ').slice(1);
-        var argresult = args.join(' ');
-
-        console.log(message.content);
 		hCommand(message);
-        //hard commands
-		/*
-        if (message.content.startsWith(prefix + 'setgame')) {
-            if (rolecheck(message.member.roles, settings.modrole)) {
-                client.user.setGame(argresult);
-                return;
-            }
-            else {
-                message.channel.send("You do not have the required role");
-                return;
-            }
-            return;
-
-        } else if (message.content.startsWith(prefix + 'setstatus')) {
-                    if (rolecheck(message.member.roles, settings.modrole)) {
-                    client.user.setStatus(argresult);
-                    return;
-        } else {
-              message.channel.send("You do not have the required role");
-              return;
-        }
-		*/
 
     } else if (message.content.startsWith(settings.softPrefix)) {
         sCommand(message);
@@ -109,8 +81,6 @@ function Command(message) {
 function rolecheck(userroles, role) {
     //iterate though collection of roles to check for the mod role
     for (let element of userroles) {
-		//console.log(element);
-		//console.log(element[1].name);
         if (element[1].name === role) {
 			console.log("boop");
 			return true;
