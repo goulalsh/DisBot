@@ -6,11 +6,13 @@ console.log('loading interjections');
 const interject = require('./interject.json');
 console.log('loading commands');
 const commands = require('./cmd.json');
+console.log('loading token.json');
+const token = require('./token.json');
 console.log('boop');
-if (settings.token === '') {
-    console.log('You must add a valid bot token to settings.json');
+if (token.token === '') {
+    console.log('You must add a valid bot token to token.json');
 }
-client.login(settings.token)
+client.login(token.token)
 client.on('ready', () => {
     console.log(settings.motd);
     client.user.setGame("with spaghetti");
@@ -155,5 +157,5 @@ function hCommand(message){
 };
 
 function sCommand(message){
-	return rolecheck(message, "Moderator");
+	// TODO: soft commands
 };
