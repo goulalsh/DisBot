@@ -111,6 +111,29 @@ function hCommand(message){
       	console.log(out);
 	  	return;
   	}
+
+    else if (message.content.startsWith(settings.hardPrefix + 'help')) {
+        var Value;
+        message.author.send("", {
+                            "embed": {
+                                "title": "Help for the Under Intact bot (please mind that these commands are not working right now)",
+                                "color": 15623782,
+                                "fields": [{
+                                        "Name": "/givebeer",
+                                        "Value": "Give a person a beer. Just sends a picture of someone giving James Hetfield a beer."
+                                    },
+                                    {
+                                        "Name": "/ljn",
+                                        "Value": "Sends a picture of James Rolfe aka The Angry Video Game Nerd."
+                                    },
+                                    {
+                                        "Name": "/retardalert",
+                                        "Value": "Sends a a South Park gif of Mrs. Garrison sounding off the retard alert."
+                                    }
+                                ]
+                            }
+                        })
+                    }
 };
 
 function sCommand(message) {
@@ -129,7 +152,7 @@ function replyInterject(message) {
 			else {
 				message.channel.send(reply);
 			}
-			
+
 			return;
 		}
 	}
