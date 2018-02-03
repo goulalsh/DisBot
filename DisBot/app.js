@@ -42,24 +42,6 @@ client.on('message', message => {
 	//interject if enabled
     else if (settings.interject) {
 		replyInterject(message);
-		/*
-        //check if message is on interject list
-        reply = interject.triggers.indexOf(message.content);
-        if (reply === -1) {
-          //message not on list.
-          return;
-        }
-		else {
-			//send images
-            if (interject.replies[reply].startsWith("images/")) {
-                message.channel.sendFile(interject.replies[reply]);
-            }
-            else {
-                message.channel.send(interject.replies[reply]);
-            }
-            return;
-        }
-		*/
     }
 
 });
@@ -114,7 +96,14 @@ function hCommand(message){
 };
 
 function sCommand(message) {
-	// TODO: soft commands
+	for (let element of cmd.triggers){
+		if (message.content.startsWith(settings.softPrefix + element)){
+			reply = cmd.replies[cmd.triggers.indexOf(element)];
+			message.channel.send(reply);
+
+			//TODO:Custom commands that take parameters
+		}
+	}
 };
 
 function replyInterject(message) {
