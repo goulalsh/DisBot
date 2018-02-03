@@ -1,4 +1,4 @@
-//Gotta get all them files loaded up
+//Gotta get all them files loaded up.
 const Discord = require('discord.js');
 const client = new Discord.Client();
 console.log('loading settings');
@@ -129,7 +129,7 @@ function replyInterject(message) {
 			else {
 				message.channel.send(reply);
 			}
-			
+
 			return;
 		}
 	}
