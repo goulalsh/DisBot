@@ -6,7 +6,7 @@ const settings = require('./settings.json');
 console.log('loading interjections');
 const interject = require('./interject.json');
 console.log('loading commands');
-const commands = require('./cmd.json');
+const cmd = require('./cmd.json');
 console.log('loading token.json');
 const token = require('./token.json');
 
@@ -60,7 +60,7 @@ function rolecheck(userroles, role) {
 
 function hCommand(message){
 
-	prefix = settings.hardPrefix;
+	var prefix = settings.hardPrefix;
 	var args = message.content.split(' ').slice(1);
 	var argresult = args.join(' ');
 
@@ -96,19 +96,33 @@ function hCommand(message){
 };
 
 function sCommand(message) {
-	for (let element of cmd.triggers){
-		if (message.content.startsWith(settings.softPrefix + element)){
-			reply = cmd.replies[cmd.triggers.indexOf(element)];
-			message.channel.send(reply);
+	// TODO: soft commands
+    var prefix = settings.softPrefix
+    var args = message.content.split(' ').slice(1);
+    var argsresult = args.join(' ');
+    for (let element of cmd.triggers){
+        if (message.content.startsWith(prefix + element)) {
+            reply = cmd.replies[cmd.triggers.indexOf(element)]
 
-			//TODO:Custom commands that take parameters
-		}
-	}
+            if (reply.startsWith("images/")){
+                message.channel.sendFile(reply);
+            }
+
+            else {
+                message.channel.send(reply);
+            }
+
+            return;
+
+        }
+    }
+    return;
+
 };
 
 function replyInterject(message) {
 	for (let element of interject.triggers){
-		if (message.content.includes(element)) {
+		if (message.content.toLowerCase().includes(element)) {
 			reply = interject.replies[interject.triggers.indexOf(element)];
 
 			if (reply.startsWith("images/")){
