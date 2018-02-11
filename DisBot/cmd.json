@@ -1,5 +1,5 @@
 {
-	"triggers": [ "ljn", "givebeer", "retardalert"],
+	"triggers": [ "ljn", "givebeer", "retardalert", "woah"],
 
-	"replies":["images/whatfff.jpg", "images/hetbeer.jpg", "images/dogeretard.jpg"]
+	"replies":  ["images/whatfff.jpg", "images/hetbeer.jpg", "images/retardalert.jpg", "images/woahdude.png"]
 }

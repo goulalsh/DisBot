@@ -6,7 +6,9 @@ const settings = require('./settings.json');
 console.log('loading interjections');
 const interject = require('./interject.json');
 console.log('loading commands');
-const commands = require('./cmd.json');
+const cmd = require('./cmd.json');
+console.log('loading help')
+const help = require('./help.js')
 console.log('loading token.json');
 const token = require('./token.json');
 
@@ -42,24 +44,6 @@ client.on('message', message => {
 	//interject if enabled
     else if (settings.interject) {
 		replyInterject(message);
-		/*
-        //check if message is on interject list
-        reply = interject.triggers.indexOf(message.content);
-        if (reply === -1) {
-          //message not on list.
-          return;
-        }
-		else {
-			//send images
-            if (interject.replies[reply].startsWith("images/")) {
-                message.channel.sendFile(interject.replies[reply]);
-            }
-            else {
-                message.channel.send(interject.replies[reply]);
-            }
-            return;
-        }
-		*/
     }
 
 });
@@ -78,7 +62,7 @@ function rolecheck(userroles, role) {
 
 function hCommand(message){
 
-	prefix = settings.hardPrefix;
+	var prefix = settings.hardPrefix;
 	var args = message.content.split(' ').slice(1);
 	var argresult = args.join(' ');
 
@@ -111,15 +95,41 @@ function hCommand(message){
       	console.log(out);
 	  	return;
   	}
+    else
+        if (message.content.startsWith(settings.hardPrefix + 'help')){
+            message.author.send({embed: help});
+            console.log(' ');
+        }
 };
 
 function sCommand(message) {
 	// TODO: soft commands
+    var prefix = settings.softPrefix
+    var args = message.content.split(' ').slice(1);
+    var argsresult = args.join(' ');
+    for (let element of cmd.triggers){
+        if (message.content.startsWith(prefix + element)) {
+            reply = cmd.replies[cmd.triggers.indexOf(element)]
+
+            if (reply.startsWith("images/")){
+                message.channel.sendFile(reply);
+            }
+
+            else {
+                message.channel.send(reply);
+            }
+
+            return;
+
+        }
+    }
+    return;
+
 };
 
 function replyInterject(message) {
 	for (let element of interject.triggers){
-		if (message.content.includes(element)) {
+		if (message.content.toLowerCase().includes(element)) {
 			reply = interject.replies[interject.triggers.indexOf(element)];
 
 			if (reply.startsWith("images/")){
@@ -129,7 +139,7 @@ function replyInterject(message) {
 			else {
 				message.channel.send(reply);
 			}
-			
+
 			return;
 		}
 	}
