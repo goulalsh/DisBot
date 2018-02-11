@@ -7,6 +7,8 @@ console.log('loading interjections');
 const interject = require('./interject.json');
 console.log('loading commands');
 const cmd = require('./cmd.json');
+console.log('loading help')
+const help = require('./help.js')
 console.log('loading token.json');
 const token = require('./token.json');
 
@@ -93,6 +95,11 @@ function hCommand(message){
       	console.log(out);
 	  	return;
   	}
+    else
+        if (message.content.startsWith(settings.hardPrefix + 'help')){
+            message.author.send({embed: help});
+            console.log(' ');
+        }
 };
 
 function sCommand(message) {
