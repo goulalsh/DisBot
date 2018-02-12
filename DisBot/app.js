@@ -1,5 +1,6 @@
 //Gotta get all them files loaded up
 const Discord = require('discord.js');
+const crawler = require('simplecrawler')
 const client = new Discord.Client();
 console.log('loading settings');
 const settings = require('./settings.json');
