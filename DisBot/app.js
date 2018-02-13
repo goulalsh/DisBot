@@ -23,7 +23,7 @@ client.on('ready', () => {
     client.user.setGame(settings.defaultGame);
 });
 
-client.on('message', message => {
+client.on('message', async message => {
     //Do not reply to bots
     if (message.author.bot) {
         return;
@@ -99,9 +99,18 @@ function hCommand(message){
     else
         if (message.content.startsWith(settings.hardPrefix + 'help')){
             message.author.send({embed: help});
-            console.log(' ');
         }
-};
+        else
+            if (message.content.startsWith(settings.hardPrefix + "delete")) {
+            if (rolecheck(message.members.roles, settings.modrole)) {
+                const deleteCount = parseInt(args[0], 10);
+            if(!deleteCount || deleteCount < 2 || deleteCount > 100)
+                return message.reply("Please provide a number between 2 and 100 for the number of messages to delete");
+            const fetched = await message.channel.fetchMessages({count: deleteCount});
+            message.channel.bulkDelete(fetched)
+            .catch(error => message.reply(`Couldn't delete messages because of: ${error}`));
+        }
+    }
 
 function sCommand(message) {
 	// TODO: soft commands

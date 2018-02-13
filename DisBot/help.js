@@ -13,7 +13,11 @@
       {
         name: "!retardalert",
         value: "Sends a gif of Mrs. Garrison sounding off the retard alert."
-      }
+    },
+    {
+        name: "!woah"
+        value: "Sends a picture of Dave Mustaine (Megadeth) looking very surprised about something."
+    }
     ],
     timestamp: new Date(),
     footer: {
