@@ -98,7 +98,7 @@ function hCommand(message) {
         message.author.send({
             embed: help
         });
-    } else if (message.content.startsWith(settings.hardPrefix + 'neko')) {
+    } else if (message.content.startsWith(settings.hardPrefix + settings.randomImage)) {
         console.log("Bar")
         var img = getRandomInt(1, 1000);
         var nekoresult = ("images/catgirls/" + img + ".jpg");
