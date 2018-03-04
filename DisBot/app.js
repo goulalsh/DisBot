@@ -33,18 +33,17 @@ client.on('message', async message => {
     //console.log(message.guild.roles.find("name", "Moderator"));
 
     //reroute commands to the appropriate function
-	if (message.content.startsWith(settings.hardPrefix)) {
-		hCommand(message);
-		return;
-	}
-	else if (message.content.startsWith(settings.softPrefix)){
-		sCommand(message);
-		return;
-	}
+    if (message.content.startsWith(settings.hardPrefix)) {
+        hCommand(message);
+        return;
+    } else if (message.content.startsWith(settings.softPrefix)) {
+        sCommand(message);
+        return;
+    }
 
-	//interject if enabled
+    //interject if enabled
     else if (settings.interject) {
-		replyInterject(message);
+        replyInterject(message);
     }
 
 });
@@ -54,80 +53,72 @@ function rolecheck(userroles, role) {
     //iterate though collection of roles to check for the mod role
     for (let element of userroles) {
         if (element[1].name === role) {
-			console.log("boop");
-			return true;
+            console.log("boop");
+            return true;
         }
     };
     return false;
 };
 
-function hCommand(message){
+function hCommand(message) {
 
-	var prefix = settings.hardPrefix;
-	var args = message.content.split(' ').slice(1);
-	var argresult = args.join(' ');
+    var prefix = settings.hardPrefix;
+    var args = message.content.split(' ').slice(1);
+    var argresult = args.join(' ');
 
-  	if (message.content.startsWith(settings.hardPrefix + 'setgame')) {
-    	if (rolecheck(message.member.roles, "Moderator")) {
-			console.log("Setting game to " + argresult)
-			client.user.setGame(argresult);
-        	return;
-      	}
-    	else {
-        	message.channel.send("You do not have the required role");
-        	return;
-    	}
-	}
-
-  	else if (message.content === settings.hardPrefix + 'setstatus') {
-    	if (rolecheck(message.member.roles, settings.modrole)) {
-        	client.user.setStatus(argresult);
-        	return;
-      	}
-      	else {
-        	message.channel.send("You do not have the required role");
-        	return;
-      	}
-	}
-
-  	else if (message.content.startsWith(settings.hardPrefix + 'getroleinfo')) {
-		var out = message.guild.roles.find("name", argresult);
-      	message.channel.send(out.name + ": " + out.id);
-      	console.log(out);
-	  	return;
-  	}
-    else
-        if (message.content.startsWith(settings.hardPrefix + 'help')){
-            message.author.send({embed: help});
-        } else
-            if (message.content.startsWith(settings.hardPrefix + 'neko')) {
-                function getRandomInt(min, max){
-                    min = Math.ceil(1);
-                    max = Math.floor(1355);
-                    return Math.floor(math.random() * (max - min)) + min;
-                    if (message.startsWith("images/catgirls")) {
-                        message.channel.sendFile(argresult);
-					console.log(out);
-                    return;
-                    }
-                }
-            }
+    if (message.content.startsWith(settings.hardPrefix + 'setgame')) {
+        if (rolecheck(message.member.roles, "Moderator")) {
+            console.log("Setting game to " + argresult)
+            client.user.setGame(argresult);
+            return;
+        } else {
+            message.channel.send("You do not have the required role");
+            return;
         }
+    } else if (message.content === settings.hardPrefix + 'setstatus') {
+        if (rolecheck(message.member.roles, settings.modrole)) {
+            client.user.setStatus(argresult);
+            return;
+        } else {
+            message.channel.send("You do not have the required role");
+            return;
+        }
+    } else if (message.content.startsWith(settings.hardPrefix + 'getroleinfo')) {
+        /*
+          this command is for getting roleids, important in configuring the bot.
+
+          TODO: replace this command with an add moderator command, which will
+          give all users with the specified role permission to use all bot commands
+        */
+        var out = message.guild.roles.find("name", argresult);
+        message.channel.send(out.name + ": " + out.id);
+        console.log(out);
+        return;
+    } else if (message.content.startsWith(settings.hardPrefix + 'help')) {
+        message.author.send({
+            embed: help
+        });
+    } else if (message.content.startsWith(settings.hardPrefix + 'neko')) {
+        console.log("Bar")
+        var img = getRandomInt(1, 1000);
+        var nekoresult = ("images/catgirls/" + img + ".jpg");
+        message.channel.sendFile(nekoresult);
+        return;
+    }
+};
 
 function sCommand(message) {
-	// TODO: soft commands
+    // TODO: soft commands
     var prefix = settings.softPrefix
     var args = message.content.split(' ').slice(1);
     var argsresult = args.join(' ');
-    for (let element of cmd.triggers){
+    for (let element of cmd.triggers) {
         if (message.content.startsWith(prefix + element)) {
             reply = cmd.replies[cmd.triggers.indexOf(element)]
 
-            if (reply.startsWith("images/")){
+            if (reply.startsWith("images/")) {
                 message.channel.sendFile(reply);
-            }
-
-            else {
+            } else {
                 message.channel.send(reply);
             }
 
@@ -140,20 +131,23 @@ function sCommand(message) {
 };
 
 function replyInterject(message) {
-	for (let element of interject.triggers){
-		if (message.content.toLowerCase().includes(element)) {
-			reply = interject.replies[interject.triggers.indexOf(element)];
+    for (let element of interject.triggers) {
+        if (message.content.toLowerCase().includes(element)) {
+            reply = interject.replies[interject.triggers.indexOf(element)];
 
-			if (reply.startsWith("images/")){
-				message.channel.sendFile(reply);
-			}
+            if (reply.startsWith("images/")) {
+                message.channel.sendFile(reply);
+            } else {
+                message.channel.send(reply);
+            }
 
-			else {
-				message.channel.send(reply);
-			}
-
-			return;
-		}
-	}
-	return;
+            return;
+        }
+    }
+    return;
 };
+
+function getRandomInt(min, max) {
+    //returns an integer between the given min and max values
+    return Math.floor(Math.random() * max) + min;
+}
