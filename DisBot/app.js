@@ -12,6 +12,8 @@ console.log('loading help')
 const help = require('./help.js')
 console.log('loading token.json');
 const token = require('./token.json');
+const onjoin = require('./onjoin.js');
+
 
 if (token.token === '') {
     console.log('You must add a valid bot token to token.json');
