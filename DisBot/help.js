@@ -15,7 +15,7 @@
         value: "Sends a gif of Mrs. Garrison sounding off the retard alert."
     },
     {
-        name: "!woah"
+        name: "!woah",
         value: "Sends a picture of Dave Mustaine (Megadeth) looking very surprised about something."
     }
     ],
