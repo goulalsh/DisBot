@@ -20,7 +20,7 @@ if (token.token === '') {
 client.login(token.token)
 client.on('ready', () => {
     console.log(settings.motd);
-    client.user.setGame(settings.defaultGame);
+    client.user.setActivity(settings.defaultGame);
 });
 
 client.on('message', async message => {
@@ -117,7 +117,7 @@ function sCommand(message) {
             reply = cmd.replies[cmd.triggers.indexOf(element)]
 
             if (reply.startsWith("images/")) {
-                message.channel.sendFile(reply);
+                message.channel.send(reply);
             } else {
                 message.channel.send(reply);
             }
@@ -136,7 +136,7 @@ function replyInterject(message) {
             reply = interject.replies[interject.triggers.indexOf(element)];
 
             if (reply.startsWith("images/")) {
-                message.channel.sendFile(reply);
+                message.channel.send(reply);
             } else {
                 message.channel.send(reply);
             }
