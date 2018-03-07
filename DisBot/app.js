@@ -13,6 +13,7 @@ const help = require('./help.js')
 console.log('loading token.json');
 const token = require('./token.json');
 const onjoin = require('./onjoin.js');
+console.log('loading onjoin.js');
 
 
 if (token.token === '') {
