@@ -4,5 +4,6 @@
   "hardPrefix": "/",
   "softPrefix": "!",
   "modrole": "Moderator",
-  "interject":true
+  "interject":true,
+  "randomImage":"neko"
 }

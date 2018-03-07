@@ -12,6 +12,8 @@ console.log('loading help')
 const help = require('./help.js')
 console.log('loading token.json');
 const token = require('./token.json');
+const onjoin = require('./onjoin.js');
+
 
 if (token.token === '') {
     console.log('You must add a valid bot token to token.json');
@@ -98,7 +100,7 @@ function hCommand(message) {
         message.author.send({
             embed: help
         });
-    } else if (message.content.startsWith(settings.hardPrefix + 'neko')) {
+    } else if (message.content.startsWith(settings.hardPrefix + settings.randomImage)) {
         console.log("Bar")
         var img = getRandomInt(1, 1000);
         var nekoresult = ("images/catgirls/" + img + ".jpg");
